@@ -9,18 +9,21 @@ public class BrutForce {
             List<String> dictSplit = new ArrayList<>
                     (Arrays.asList(dictionary.split("[\\p{Punct}\\s]+")));
             List<String> dictSplitLowerCase = new ArrayList<>();
-            for (String s:dictSplit
-                 ) {
-                dictSplitLowerCase.add(s.toLowerCase());
+            for (String s : dictSplit) {
+                String replaced = s.replace("-","").toLowerCase();
+                if (!replaced.isEmpty()) dictSplitLowerCase.add(replaced);
             }
             String[] split = tempResult.split("[\\p{Punct}\\s]+");
             for (String word : split) {
-                if (dictSplitLowerCase.contains(word)) {
-                    if (matches.get(key) == null) {
-                        matches.put(key, 1);
-                    } else {
-                        int newValue = matches.get(key) + 1;
-                        matches.put(key, newValue);
+                for (String dictSuffix:dictSplitLowerCase) {
+                    if (word.contains(dictSuffix)) {
+                        if (matches.get(key) == null) {
+                            matches.put(key, 1);
+                        } else {
+                            int newValue = matches.get(key) + 1;
+                            matches.put(key, newValue);
+                        }
+                        break;
                     }
                 }
             }

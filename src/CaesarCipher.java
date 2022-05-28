@@ -78,8 +78,21 @@ public class CaesarCipher {
                     filepathOut = scanner.nextLine();
                     try (BufferedReader reader = new BufferedReader(new FileReader(filepathIn));
                          BufferedWriter writer = new BufferedWriter(new FileWriter(filepathOut))) {
-                        byte[] encoded = Files.readAllBytes(Paths.get("C:\\Users\\User\\IdeaProjects\\ru.javarush.cryptoanalizer\\dictionary.txt"));
-                        String dictionary = new String(encoded, StandardCharsets.UTF_8);
+                        String dictionary = "";
+                        BufferedReader br = new BufferedReader(new FileReader("dictionary.txt"));
+                        try {
+                            StringBuilder sb = new StringBuilder();
+                            String line = br.readLine();
+
+                            while (line != null) {
+                                sb.append(line);
+                                sb.append(System.lineSeparator());
+                                line = br.readLine();
+                            }
+                            dictionary = sb.toString();
+                        } finally {
+                            br.close();
+                        }
 
                         while (reader.ready()) {
                             String words = reader.readLine();
